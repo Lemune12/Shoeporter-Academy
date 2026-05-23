@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShoePorter Academy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green: #3B6D11;
+      --green-light: #EAF3DE;
+      --green-mid: #97C459;
+      --green-dark: #27500A;
+      --text: #1a1a1a;
+      --text-muted: #666;
+      --text-hint: #999;
+      --border: rgba(0,0,0,0.1);
+      --border-hover: rgba(0,0,0,0.2);
+      --bg: #fff;
+      --bg-surface: #f7f7f5;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .nav-logo {
+      font-size: 16px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      color: var(--text);
+    }
+    .nav-logo span { color: var(--green); }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-btns { display: flex; gap: 8px; }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 0.5px solid var(--border-hover);
+      border-radius: var(--radius-md);
+      padding: 8px 18px;
+      font-size: 13px;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-outline:hover { background: var(--bg-surface); }
+
+    .btn-green {
+      background: var(--green);
+      color: var(--green-light);
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-green:hover { background: var(--green-dark); }
+
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 22px;
+      color: var(--text);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 6rem 2rem 5rem;
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      background: var(--green-light);
+      color: var(--green-dark);
+      border-radius: 99px;
+      padding: 4px 14px;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(32px, 5vw, 46px);
+      font-weight: 400;
+      line-height: 1.15;
+      letter-spacing: -0.5px;
+      margin-bottom: 1rem;
+    }
+    .hero h1 em { color: var(--green); font-style: normal; }
+
+    .hero p {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .hero-btns .btn-green, .hero-btns .btn-outline {
+      padding: 11px 26px;
+      font-size: 14px;
+    }
+
+    /* ── STATS ── */
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+      padding: 2.5rem 2rem;
+      border-top: 0.5px solid var(--border);
+      border-bottom: 0.5px solid var(--border);
+      margin: 0 2rem;
+    }
+    .stat { text-align: center; }
+    .stat-n { font-size: 24px; font-weight: 500; }
+    .stat-n .star { color: #BA7517; font-size: 16px; }
+    .stat-l { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+    /* ── SECTION SHARED ── */
+    section { padding: 4rem 2rem; }
+    .section-inner { max-width: 760px; margin: 0 auto; }
+    .section-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--green);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(22px, 3vw, 28px);
+      font-weight: 400;
+      margin-bottom: 1.5rem;
+      line-height: 1.3;
+    }
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+    .section-header h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      font-weight: 400;
+    }
+    .section-header a {
+      font-size: 13px;
+      color: var(--green);
+      text-decoration: none;
+    }
+
+    /* ── ABOUT ── */
+    .about { background: var(--bg-surface); }
+    .about-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .about-text p { font-size: 14px; color: var(--text-muted); margin-bottom: 0.75rem; }
+    .about-pills { display: flex; flex-direction: column; gap: 8px; }
+    .pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      font-size: 13px;
+    }
+    .pill-icon { color: var(--green); font-size: 16px; }
+
+    /* ── COURSES ── */
+    .grid3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+    .course-card {
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      cursor: pointer;
+      transition: border-color 0.15s, transform 0.15s;
+    }
+    .course-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+    .course-card.popular { border: 2px solid var(--green-mid); }
+    .popular-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 500;
+      background: var(--green-light);
+      color: var(--green-dark);
+      border-radius: 99px;
+      padding: 3px 10px;
+      margin-bottom: 8px;
+    }
+    .card-icon {
+      width: 38px;
+      height: 38px;
+      background: var(--green-light);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.75rem;
+      font-size: 18px;
+      color: var(--green);
+    }
+    .card-tag { font-size: 11px; font-weight: 500; color: var(--green); margin-bottom: 5px; }
+    .card-title { font-size: 14px; font-weight: 500; line-height: 1.4; margin-bottom: 6px; }
+    .card-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; margin-bottom: 12px; }
+    .card-btn {
+      font-size: 12px;
+      color: var(--green);
+      border: 0.5px solid var(--green-mid);
+      border-radius: var(--radius-md);
+      padding: 5px 12px;
+      background: transparent;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: background 0.15s;
+    }
+    .card-btn:hover { background: var(--green-light); }
+
+    /* ── SERVICES ── */
+    .services { background: var(--bg-surface); }
+    .svc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+    }
+    .svc-card {
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem 1rem;
+      text-align: center;
+      transition: border-color 0.15s;
+    }
+    .svc-card:hover { border-color: var(--border-hover); }
+    .svc-icon { font-size: 26px; color: var(--green); margin-bottom: 8px; }
+    .svc-name { font-size: 13px; font-weight: 500; }
+    .svc-desc { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
+    /* ── KEUNGGULAN ── */
+    .k-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+    }
+    .k-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: var(--bg-surface);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+    }
+    .k-icon { color: var(--green); font-size: 20px; margin-top: 2px; flex-shrink: 0; }
+    .k-title { font-size: 13px; font-weight: 500; }
+    .k-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+    /* ── TESTIMONIALS ── */
+    .testi { background: var(--bg-surface); }
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px;
+    }
+    .testi-card {
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+    }
+    .stars { color: #BA7517; font-size: 13px; margin-bottom: 8px; }
+    .testi-text { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 1rem; }
+    .testi-author { display: flex; align-items: center; gap: 8px; }
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--green-light);
+      color: var(--green-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+    .author-name { font-size: 13px; font-weight: 500; }
+    .author-role { font-size: 11px; color: var(--text-muted); }
+
+    /* ── CABANG ── */
+    .cabang-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 12px;
+      margin-bottom: 1.5rem;
+    }
+    .cabang-card {
+      background: var(--bg-surface);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+    }
+    .cabang-type {
+      font-size: 10px;
+      font-weight: 500;
+      background: var(--green-light);
+      color: var(--green-dark);
+      border-radius: 99px;
+      padding: 2px 8px;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+    .cabang-name { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+    .cabang-addr { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+    .map-placeholder {
+      background: var(--bg-surface);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      height: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+    .map-placeholder svg { opacity: 0.4; }
+
+    /* ── CONTACT ── */
+    .contact { background: var(--bg-surface); }
+    .contact-inner { max-width: 480px; margin: 0 auto; }
+    .contact h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+    }
+    .contact p { font-size: 14px; color: var(--text-muted); margin-bottom: 1.5rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .form-group { margin-bottom: 12px; }
+    .form-group label { font-size: 13px; color: var(--text-muted); display: block; margin-bottom: 4px; }
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      transition: border-color 0.15s;
+      outline: none;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus { border-color: var(--green-mid); }
+    .form-group textarea { height: 90px; resize: none; }
+    .btn-wa {
+      width: 100%;
+      padding: 11px;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+      background: #25D366;
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 4px;
+      transition: background 0.15s;
+    }
+    .btn-wa:hover { background: #1ebe5d; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 1.5rem 2rem;
+      border-top: 0.5px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .footer-text { font-size: 12px; color: var(--text-muted); }
+    .footer-links { display: flex; gap: 1.25rem; }
+    .footer-links a { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+    .footer-links a:hover { color: var(--text); }
+
+    /* ── FADE IN ANIMATION ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      nav { padding: 1rem; }
+      .nav-links, .nav-btns { display: none; }
+      .hamburger { display: block; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 57px;
+        left: 0;
+        right: 0;
+        background: var(--bg);
+        border-bottom: 0.5px solid var(--border);
+        padding: 1rem 1.5rem;
+        gap: 1rem;
+      }
+      .about-inner { grid-template-columns: 1fr; gap: 1.5rem; }
+      .stats { gap: 1.5rem; }
+      .form-row { grid-template-columns: 1fr; }
+      footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a class="nav-logo" href="#">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3B6D11" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s4-8 10-8 10 8 10 8-4 8-10 8S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+    ShoePorter <span>Academy</span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about">Tentang</a></li>
+    <li><a href="#program">Program</a></li>
+    <li><a href="#layanan">Layanan</a></li>
+    <li><a href="#cabang">Cabang</a></li>
+    <li><a href="#kontak">Kontak</a></li>
+  </ul>
+  <div class="nav-btns">
+    <button class="btn-outline" onclick="window.location.href='login.html'">Login</button>
+    <button class="btn-green" onclick="document.getElementById('kontak').scrollIntoView({behavior:'smooth'})">Mulai Belajar</button>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Menu">&#9776;</button>
+</nav>
+
+<!-- HERO -->
+<div class="hero fade-in">
+  <div class="hero-badge">&#127981; Berdiri sejak 2017 &middot; Terpercaya & profesional</div>
+  <h1>Belajar & Kuasai Bisnis<br><em>Laundry Sepatu</em> Profesional</h1>
+  <p>Platform edukasi shoe care pertama di Indonesia. Dari basic cleaning hingga franchise, kami siapkan kamu menjadi ahlinya.</p>
+  <div class="hero-btns">
+    <button class="btn-green" onclick="document.getElementById('program').scrollIntoView({behavior:'smooth'})">&#128218; Mulai Belajar</button>
+    <button class="btn-outline" onclick="document.getElementById('layanan').scrollIntoView({behavior:'smooth'})">&#129704; Lihat Layanan</button>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats fade-in">
+  <div class="stat"><div class="stat-n">7+</div><div class="stat-l">Tahun pengalaman</div></div>
+  <div class="stat"><div class="stat-n">12k+</div><div class="stat-l">Pelanggan puas</div></div>
+  <div class="stat"><div class="stat-n">4</div><div class="stat-l">Program akademi</div></div>
+  <div class="stat"><div class="stat-n">4</div><div class="stat-l">Lokasi aktif</div></div>
+  <div class="stat"><div class="stat-n">4.9 <span class="star">&#9733;</span></div><div class="stat-l">Rating rata-rata</div></div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-inner fade-in">
+    <div class="about-text">
+      <div class="section-label">Tentang kami</div>
+      <h2 class="section-title">Dari laundry sepatu menjadi platform edukasi</h2>
+      <p>Berawal dari bisnis laundry sepatu di tahun 2017, ShoePorter kini berkembang menjadi platform edukasi dan layanan shoe care profesional terlengkap di Indonesia.</p>
+      <p>Kami percaya setiap orang bisa membangun bisnis shoe care yang sukses dengan ilmu yang tepat dan dukungan komunitas yang solid.</p>
+    </div>
+    <div class="about-pills">
+      <div class="pill"><span class="pill-icon">&#129704;</span> Laundry sepatu profesional</div>
+      <div class="pill"><span class="pill-icon">&#127912;</span> Repair & repaint sepatu</div>
+      <div class="pill"><span class="pill-icon">&#127979;</span> Edukasi bisnis shoe care</div>
+      <div class="pill"><span class="pill-icon">&#127968;</span> Franchise & partnership</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAM -->
+<section id="program">
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <h2>Program akademi</h2>
+      <a href="#">Lihat semua &rarr;</a>
+    </div>
+    <div class="grid3 fade-in">
+      <div class="course-card">
+        <div class="card-icon">&#129704;</div>
+        <div class="card-tag">Pemula</div>
+        <div class="card-title">Basic Shoe Cleaning</div>
+        <div class="card-desc">Dasar-dasar cuci sepatu yang benar, bahan yang aman, dan teknik pengeringan profesional.</div>
+        <button class="card-btn">Detail</button>
+      </div>
+      <div class="course-card">
+        <div class="card-icon">&#127912;</div>
+        <div class="card-tag">Menengah</div>
+        <div class="card-title">Advanced Restoration</div>
+        <div class="card-desc">Teknik repaint, sole restoration, dan pemulihan sepatu koleksi premium.</div>
+        <button class="card-btn">Detail</button>
+      </div>
+      <div class="course-card">
+        <div class="card-icon">&#128188;</div>
+        <div class="card-tag">Bisnis</div>
+        <div class="card-title">Shoe Business Starter Kit</div>
+        <div class="card-desc">Panduan lengkap memulai bisnis laundry sepatu dari nol: modal, lokasi, dan pemasaran.</div>
+        <button class="card-btn">Detail</button>
+      </div>
+      <div class="course-card popular">
+        <div class="popular-badge">Terpopuler</div>
+        <div class="card-icon">&#127968;</div>
+        <div class="card-tag">Franchise</div>
+        <div class="card-title">Franchise / Partnership Training</div>
+        <div class="card-desc">Buka cabang ShoePorter di kotamu. Sudah termasuk mentoring dan support penuh.</div>
+        <button class="card-btn">Detail</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="layanan">
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <h2>Layanan kami</h2>
+    </div>
+    <div class="svc-grid fade-in">
+      <div class="svc-card"><div class="svc-icon">&#129704;</div><div class="svc-name">Deep Cleaning</div><div class="svc-desc">Cuci tuntas hingga sol</div></div>
+      <div class="svc-card"><div class="svc-icon">&#127912;</div><div class="svc-name">Repaint</div><div class="svc-desc">Cat ulang profesional</div></div>
+      <div class="svc-card"><div class="svc-icon">&#128296;</div><div class="svc-name">Repair</div><div class="svc-desc">Perbaikan sol & jahit</div></div>
+      <div class="svc-card"><div class="svc-icon">&#128737;</div><div class="svc-name">Sole Protect</div><div class="svc-desc">Lapisan pelindung sol</div></div>
+      <div class="svc-card"><div class="svc-icon">&#128092;</div><div class="svc-name">Bag Spa</div><div class="svc-desc">Perawatan tas premium</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- KEUNGGULAN -->
+<section>
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <h2>Kenapa pilih ShoePorter?</h2>
+    </div>
+    <div class="k-grid fade-in">
+      <div class="k-item"><span class="k-icon">&#127807;</span><div><div class="k-title">Bahan premium & aman</div><div class="k-sub">Produk ramah kulit & lingkungan</div></div></div>
+      <div class="k-item"><span class="k-icon">&#127942;</span><div><div class="k-title">Teknisi bersertifikat</div><div class="k-sub">Terlatih & berpengalaman</div></div></div>
+      <div class="k-item"><span class="k-icon">&#127979;</span><div><div class="k-title">Edukasi dari praktisi</div><div class="k-sub">Langsung dari yang ahlinya</div></div></div>
+      <div class="k-item"><span class="k-icon">&#127911;</span><div><div class="k-title">Support bisnis penuh</div><div class="k-sub">Mentoring & komunitas aktif</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONI -->
+<section class="testi">
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <h2>Testimoni pelanggan</h2>
+    </div>
+    <div class="testi-grid fade-in">
+      <div class="testi-card">
+        <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733; 5.0</div>
+        <div class="testi-text">"Sepatu Jordan saya yang udah kusam balik jadi kaya baru lagi. Hasilnya melebihi ekspektasi!"</div>
+        <div class="testi-author">
+          <div class="avatar">RH</div>
+          <div><div class="author-name">Rizky Hendra</div><div class="author-role">Pelanggan BSD</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733; 5.0</div>
+        <div class="testi-text">"Ikut kelas Basic Cleaning-nya dan langsung bisa buka usaha sendiri. Ilmunya sangat praktis!"</div>
+        <div class="testi-author">
+          <div class="avatar">DP</div>
+          <div><div class="author-name">Dewi Puspita</div><div class="author-role">Alumni akademi</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733; 4.9</div>
+        <div class="testi-text">"Sudah franchise ke 2 kota, omset bulan pertama langsung profitable. Tim ShoePorter sangat support!"</div>
+        <div class="testi-author">
+          <div class="avatar">AF</div>
+          <div><div class="author-name">Ahmad Faiz</div><div class="author-role">Mitra franchise</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CABANG -->
+<section id="cabang">
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <h2>Lokasi kami</h2>
+    </div>
+    <div class="cabang-grid fade-in">
+      <div class="cabang-card">
+        <div class="cabang-type">Workshop</div>
+        <div class="cabang-name">&#128205; BSD</div>
+        <div class="cabang-addr">Jl. Griya Loka Raya Sektor 1.1 RE2 No.4, Lt.2 Lemari Kopi Selatan, BSD City, Tangerang Selatan 15317</div>
+      </div>
+      <div class="cabang-card">
+        <div class="cabang-type">Workshop</div>
+        <div class="cabang-name">&#128205; Puri</div>
+        <div class="cabang-addr">Di dalam Di Bawah Pohon Barber & Shop Puri 2, Jl. Pesanggrahan No.9, Meruya Utara, Jakarta Barat 11620</div>
+      </div>
+      <div class="cabang-card">
+        <div class="cabang-type">Drop Point</div>
+        <div class="cabang-name">&#128205; Gading Serpong</div>
+        <div class="cabang-addr">Ruko Northridge BSD, Blok C2 No.5, Lengkong Kulon, Pagedangan, Tangerang Selatan 15310</div>
+      </div>
+      <div class="cabang-card">
+        <div class="cabang-type">Drop Point</div>
+        <div class="cabang-name">&#128205; Bintaro</div>
+        <div class="cabang-addr">Di dalam Link Padel Arena, Jl. Taman Bintaro Barat No.7, Pesanggrahan, Jakarta Selatan 12330</div>
+      </div>
+    </div>
+    <iframe src="https://www.google.com/maps/d/embed?mid=10Yu4UssdCwMjTLStgoTruD-yuttDdAY&ehbc=2E312F" width="100%" height="400" style="border:0; border-radius:12px;" allowfullscreen="" loading="lazy"></iframe>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="kontak">
+  <div class="contact-inner">
+    <div class="section-label">Hubungi kami</div>
+    <h2>Konsultasi gratis</h2>
+    <p>Isi form di bawah dan kamu akan langsung terhubung ke WhatsApp tim ShoePorter Academy.</p>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Nama lengkap</label>
+        <input type="text" id="nama" placeholder="Nama kamu">
+      </div>
+      <div class="form-group">
+        <label>Nomor telepon</label>
+        <input type="tel" id="telp" placeholder="08xx-xxxx-xxxx">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="email" placeholder="email@kamu.com">
+    </div>
+    <div class="form-group">
+      <label>Alamat lengkap</label>
+      <input type="text" id="alamat" placeholder="Jalan, nomor, kelurahan, kecamatan...">
+    </div>
+    <div class="form-group">
+      <label>Pesan / pertanyaan</label>
+      <textarea id="pesan" placeholder="Ceritakan kebutuhan atau pertanyaanmu..."></textarea>
+    </div>
+    <button class="btn-wa" onclick="kirimWA()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.533 5.859L.057 23.486a.5.5 0 0 0 .609.61l5.702-1.48A11.955 11.955 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.006-1.371l-.36-.214-3.733.969.994-3.641-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
+      Kirim via WhatsApp
+    </button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-text">&copy; 2026 ShoePorter Academy &middot; Berdiri sejak 2017</div>
+  <div class="footer-links">
+    <a href="#">Instagram</a>
+    <a href="#">WhatsApp</a>
+    <a href="#">TikTok</a>
+    <a href="#">Kebijakan Privasi</a>
+  </div>
+</footer>
+
+<script>
+  // Hamburger menu
+  document.getElementById('hamburger').addEventListener('click', function() {
+    document.getElementById('navLinks').classList.toggle('open');
+  });
+
+  // Fade in on scroll
+  const fadeEls = document.querySelectorAll('.fade-in');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.classList.add('visible');
+        observer.unobserve(el.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  fadeEls.forEach(el => observer.observe(el));
+
+  // WhatsApp form
+  function kirimWA() {
+    const nama = document.getElementById('nama').value.trim();
+    const telp = document.getElementById('telp').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const alamat = document.getElementById('alamat').value.trim();
+    const pesan = document.getElementById('pesan').value.trim();
+
+    if (!nama || !telp) {
+      alert('Mohon isi minimal nama dan nomor telepon.');
+      return;
+    }
+
+    // GANTI dengan nomor WhatsApp ShoePorter Academy (format: 62xxx)
+    const nomorWA = '6287880057656';
+
+    const teks =
+      'Halo ShoePorter Academy! 👟\n\n' +
+      'Saya ingin konsultasi:\n\n' +
+      '• Nama: ' + nama + '\n' +
+      '• No. Telp: ' + telp + '\n' +
+      (email ? '• Email: ' + email + '\n' : '') +
+      (alamat ? '• Alamat: ' + alamat + '\n' : '') +
+      (pesan ? '\nPesan:\n' + pesan : '');
+
+    window.open('https://wa.me/' + nomorWA + '?text=' + encodeURIComponent(teks), '_blank');
+  }
+</script>
+
+</body>
+</html>

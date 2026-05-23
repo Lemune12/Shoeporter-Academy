@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login — ShoePorter Academy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green: #3B6D11;
+      --green-light: #EAF3DE;
+      --green-mid: #97C459;
+      --green-dark: #27500A;
+      --text: #1a1a1a;
+      --text-muted: #666;
+      --border: rgba(0,0,0,0.1);
+      --border-hover: rgba(0,0,0,0.2);
+      --bg: #fff;
+      --bg-surface: #f7f7f5;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      background: var(--bg-surface);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── NAV ── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      background: var(--bg);
+      border-bottom: 0.5px solid var(--border);
+    }
+    .nav-logo {
+      font-size: 16px;
+      font-weight: 500;
+      text-decoration: none;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-logo span { color: var(--green); }
+    .nav-back {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .nav-back:hover { color: var(--text); }
+
+    /* ── MAIN ── */
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .login-card {
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.04);
+    }
+
+    .login-logo {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .login-logo-icon {
+      width: 52px;
+      height: 52px;
+      background: var(--green-light);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin: 0 auto 12px;
+    }
+    .login-logo-text {
+      font-size: 17px;
+      font-weight: 500;
+    }
+    .login-logo-text span { color: var(--green); }
+    .login-logo-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    /* TABS */
+    .tabs {
+      display: flex;
+      border-bottom: 0.5px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s;
+    }
+    .tab.active {
+      color: var(--green);
+      border-bottom-color: var(--green);
+    }
+
+    /* FORM */
+    .form-panel { display: none; }
+    .form-panel.active { display: block; }
+
+    .form-group { margin-bottom: 12px; }
+    .form-group label {
+      font-size: 13px;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .form-group input {
+      width: 100%;
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .form-group input:focus { border-color: var(--green-mid); }
+
+    .pw-wrap { position: relative; }
+    .pw-wrap input { padding-right: 40px; }
+    .pw-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      color: var(--text-muted);
+      padding: 0;
+    }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    .forgot {
+      text-align: right;
+      margin-bottom: 1.25rem;
+    }
+    .forgot a {
+      font-size: 12px;
+      color: var(--green);
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .btn-green {
+      width: 100%;
+      padding: 11px;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--green);
+      color: var(--green-light);
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: background 0.15s;
+      margin-bottom: 1rem;
+    }
+    .btn-green:hover { background: var(--green-dark); }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+    .divider-line { flex: 1; height: 0.5px; background: var(--border); }
+    .divider-text { font-size: 12px; color: var(--text-muted); }
+
+    .btn-wa {
+      width: 100%;
+      padding: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+      background: transparent;
+      color: var(--text);
+      border: 0.5px solid var(--border-hover);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 1.5rem;
+      transition: background 0.15s;
+    }
+    .btn-wa:hover { background: var(--bg-surface); }
+
+    .switch-text {
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .switch-text a {
+      color: var(--green);
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* ALERT */
+    .alert {
+      display: none;
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+    .alert.error { background: #FEE2E2; color: #B91C1C; }
+    .alert.success { background: var(--green-light); color: var(--green-dark); }
+    .alert.show { display: block; }
+
+    /* SYARAT */
+    .syarat {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 1rem;
+      line-height: 1.6;
+    }
+    .syarat a { color: var(--green); text-decoration: none; }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 1.25rem;
+      font-size: 12px;
+      color: var(--text-muted);
+      border-top: 0.5px solid var(--border);
+    }
+
+    @media (max-width: 480px) {
+      .login-card { padding: 1.75rem 1.25rem; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">
+    &#129704; ShoePorter <span>Academy</span>
+  </a>
+  <a class="nav-back" href="index.html">&#8592; Kembali ke beranda</a>
+</nav>
+
+<main>
+  <div class="login-card">
+
+    <div class="login-logo">
+      <div class="login-logo-icon">&#129704;</div>
+      <div class="login-logo-text">ShoePorter <span>Academy</span></div>
+      <div class="login-logo-sub">Platform edukasi shoe care profesional</div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+      <div class="tab active" id="tab-masuk" onclick="switchTab('masuk')">Masuk</div>
+      <div class="tab" id="tab-daftar" onclick="switchTab('daftar')">Daftar</div>
+    </div>
+
+    <!-- ALERT -->
+    <div class="alert" id="alert"></div>
+
+    <!-- FORM MASUK -->
+    <div class="form-panel active" id="panel-masuk">
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="login-email" placeholder="email@kamu.com">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <div class="pw-wrap">
+          <input type="password" id="login-pw" placeholder="Masukkan password">
+          <button class="pw-toggle" onclick="togglePw('login-pw', 'eye1')" aria-label="Tampilkan password">
+            <span id="eye1">&#128065;</span>
+          </button>
+        </div>
+      </div>
+      <div class="forgot"><a onclick="lupaPassword()">Lupa password?</a></div>
+      <button class="btn-green" onclick="doLogin()">Masuk</button>
+
+      <div class="divider">
+        <div class="divider-line"></div>
+        <div class="divider-text">atau</div>
+        <div class="divider-line"></div>
+      </div>
+
+      <button class="btn-wa" onclick="loginWA()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.533 5.859L.057 23.486a.5.5 0 0 0 .609.61l5.702-1.48A11.955 11.955 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.006-1.371l-.36-.214-3.733.969.994-3.641-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
+        Masuk dengan WhatsApp
+      </button>
+
+      <div class="switch-text">Belum punya akun? <a onclick="switchTab('daftar')">Daftar sekarang</a></div>
+    </div>
+
+    <!-- FORM DAFTAR -->
+    <div class="form-panel" id="panel-daftar">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nama depan</label>
+          <input type="text" id="reg-nama-depan" placeholder="Nama depan">
+        </div>
+        <div class="form-group">
+          <label>Nama belakang</label>
+          <input type="text" id="reg-nama-belakang" placeholder="Nama belakang">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="reg-email" placeholder="email@kamu.com">
+      </div>
+      <div class="form-group">
+        <label>Nomor WhatsApp</label>
+        <input type="tel" id="reg-wa" placeholder="08xx-xxxx-xxxx">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <div class="pw-wrap">
+          <input type="password" id="reg-pw" placeholder="Minimal 8 karakter">
+          <button class="pw-toggle" onclick="togglePw('reg-pw', 'eye2')" aria-label="Tampilkan password">
+            <span id="eye2">&#128065;</span>
+          </button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Konfirmasi password</label>
+        <div class="pw-wrap">
+          <input type="password" id="reg-pw2" placeholder="Ulangi password">
+          <button class="pw-toggle" onclick="togglePw('reg-pw2', 'eye3')" aria-label="Tampilkan password">
+            <span id="eye3">&#128065;</span>
+          </button>
+        </div>
+      </div>
+      <button class="btn-green" onclick="doRegister()">Buat akun gratis</button>
+
+      <div class="syarat">
+        Dengan mendaftar, kamu menyetujui <a href="#">Syarat & Ketentuan</a> dan <a href="#">Kebijakan Privasi</a> ShoePorter Academy.
+      </div>
+
+      <div class="switch-text" style="margin-top:1rem">Sudah punya akun? <a onclick="switchTab('masuk')">Masuk di sini</a></div>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  &copy; 2026 ShoePorter Academy &middot; Berdiri sejak 2017
+</footer>
+
+<script>
+  function switchTab(tab) {
+    document.getElementById('tab-masuk').classList.toggle('active', tab === 'masuk');
+    document.getElementById('tab-daftar').classList.toggle('active', tab === 'daftar');
+    document.getElementById('panel-masuk').classList.toggle('active', tab === 'masuk');
+    document.getElementById('panel-daftar').classList.toggle('active', tab === 'daftar');
+    hideAlert();
+  }
+
+  function showAlert(msg, type) {
+    const el = document.getElementById('alert');
+    el.textContent = msg;
+    el.className = 'alert ' + type + ' show';
+  }
+
+  function hideAlert() {
+    document.getElementById('alert').className = 'alert';
+  }
+
+  function togglePw(inputId, eyeId) {
+    const input = document.getElementById(inputId);
+    const eye = document.getElementById(eyeId);
+    if (input.type === 'password') {
+      input.type = 'text';
+      eye.textContent = '🙈';
+    } else {
+      input.type = 'password';
+      eye.textContent = '👁';
+    }
+  }
+
+  function doLogin() {
+    const email = document.getElementById('login-email').value.trim();
+    const pw = document.getElementById('login-pw').value.trim();
+    if (!email || !pw) {
+      showAlert('Mohon isi email dan password.', 'error');
+      return;
+    }
+    if (!email.includes('@')) {
+      showAlert('Format email tidak valid.', 'error');
+      return;
+    }
+    // Simulasi login berhasil — sambungkan ke backend/auth system
+    showAlert('Login berhasil! Mengarahkan ke dashboard...', 'success');
+    setTimeout(() => { window.location.href = 'dashboard.html'; }, 1500);
+  }
+
+  function doRegister() {
+    const namaDepan = document.getElementById('reg-nama-depan').value.trim();
+    const email = document.getElementById('reg-email').value.trim();
+    const wa = document.getElementById('reg-wa').value.trim();
+    const pw = document.getElementById('reg-pw').value.trim();
+    const pw2 = document.getElementById('reg-pw2').value.trim();
+
+    if (!namaDepan || !email || !wa || !pw || !pw2) {
+      showAlert('Mohon lengkapi semua field.', 'error');
+      return;
+    }
+    if (!email.includes('@')) {
+      showAlert('Format email tidak valid.', 'error');
+      return;
+    }
+    if (pw.length < 8) {
+      showAlert('Password minimal 8 karakter.', 'error');
+      return;
+    }
+    if (pw !== pw2) {
+      showAlert('Password dan konfirmasi password tidak cocok.', 'error');
+      return;
+    }
+    // Simulasi registrasi berhasil
+    showAlert('Akun berhasil dibuat! Silakan masuk.', 'success');
+    setTimeout(() => { switchTab('masuk'); }, 1500);
+  }
+
+  function lupaPassword() {
+    const email = document.getElementById('login-email').value.trim();
+    if (!email) {
+      showAlert('Masukkan email kamu dulu, lalu klik "Lupa password".', 'error');
+      return;
+    }
+    showAlert('Link reset password telah dikirim ke ' + email, 'success');
+  }
+
+  function loginWA() {
+    const nomorWA = '6287880057656';
+    const teks = 'Halo ShoePorter Academy! 👟\n\nSaya ingin login / mendaftar akun di ShoePorter Academy. Mohon bantuannya.';
+    window.open('https://wa.me/' + nomorWA + '?text=' + encodeURIComponent(teks), '_blank');
+  }
+</script>
+
+</body>
+</html>

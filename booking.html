@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking Layanan — ShoePorter Academy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green: #3B6D11;
+      --green-light: #EAF3DE;
+      --green-mid: #97C459;
+      --green-dark: #27500A;
+      --text: #1a1a1a;
+      --text-muted: #666;
+      --border: rgba(0,0,0,0.1);
+      --border-hover: rgba(0,0,0,0.2);
+      --bg: #fff;
+      --bg-surface: #f7f7f5;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      background: var(--bg-surface);
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      background: var(--bg);
+      border-bottom: 0.5px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-logo {
+      font-size: 16px;
+      font-weight: 500;
+      text-decoration: none;
+      color: var(--text);
+    }
+    .nav-logo span { color: var(--green); }
+    .nav-back {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+    .nav-back:hover { color: var(--text); }
+
+    /* LAYOUT */
+    .page {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .page-header { margin-bottom: 2rem; }
+    .page-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--green);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .page-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 26px;
+      font-weight: 400;
+      margin-bottom: 6px;
+    }
+    .page-sub { font-size: 14px; color: var(--text-muted); }
+
+    /* STEPS */
+    .steps {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 2rem;
+    }
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .step.active { color: var(--green); font-weight: 500; }
+    .step.done { color: var(--green); }
+    .step-num {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--bg-surface);
+      border: 0.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+    .step.active .step-num {
+      background: var(--green);
+      color: #fff;
+      border-color: var(--green);
+    }
+    .step.done .step-num {
+      background: var(--green-light);
+      color: var(--green);
+      border-color: var(--green-mid);
+    }
+    .step-line {
+      flex: 1;
+      height: 0.5px;
+      background: var(--border);
+      margin: 0 8px;
+    }
+
+    /* CARD */
+    .card {
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .card-title {
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+
+    /* LAYANAN GRID */
+    .layanan-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+    }
+    .layanan-item {
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .layanan-item:hover { border-color: var(--green-mid); }
+    .layanan-item.selected {
+      border-color: var(--green);
+      background: var(--green-light);
+    }
+    .layanan-icon { font-size: 22px; margin-bottom: 6px; }
+    .layanan-name { font-size: 13px; font-weight: 500; }
+    .layanan-desc { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+    /* PICKUP TYPE */
+    .pickup-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .pickup-item {
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .pickup-item:hover { border-color: var(--green-mid); }
+    .pickup-item.selected {
+      border-color: var(--green);
+      background: var(--green-light);
+    }
+    .pickup-icon { font-size: 20px; flex-shrink: 0; }
+    .pickup-name { font-size: 13px; font-weight: 500; }
+    .pickup-desc { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+    /* FORM */
+    .form-group { margin-bottom: 12px; }
+    .form-group label {
+      font-size: 13px;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus { border-color: var(--green-mid); }
+    .form-group textarea { height: 80px; resize: none; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .optional-tag {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-left: 4px;
+    }
+
+    /* LOCATION SHARE */
+    .loc-btn {
+      width: 100%;
+      padding: 10px;
+      font-size: 13px;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg-surface);
+      color: var(--text);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.15s;
+    }
+    .loc-btn:hover { background: var(--green-light); border-color: var(--green-mid); }
+    .loc-btn.got { background: var(--green-light); color: var(--green-dark); border-color: var(--green-mid); }
+    .loc-result {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      display: none;
+    }
+
+    /* SUMMARY */
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      font-size: 13px;
+      padding: 8px 0;
+      border-bottom: 0.5px solid var(--border);
+    }
+    .summary-row:last-child { border-bottom: none; }
+    .summary-label { color: var(--text-muted); }
+    .summary-val { font-weight: 500; text-align: right; max-width: 60%; }
+
+    /* BUTTONS */
+    .btn-green {
+      background: var(--green);
+      color: var(--green-light);
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 11px 24px;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-green:hover { background: var(--green-dark); }
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 0.5px solid var(--border-hover);
+      border-radius: var(--radius-md);
+      padding: 11px 24px;
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-outline:hover { background: var(--bg-surface); }
+    .btn-wa {
+      background: #25D366;
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      transition: background 0.15s;
+    }
+    .btn-wa:hover { background: #1ebe5d; }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 1.5rem;
+    }
+
+    /* PANELS */
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    /* ALERT */
+    .alert {
+      display: none;
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+    .alert.error { background: #FEE2E2; color: #B91C1C; }
+    .alert.show { display: block; }
+
+    /* SUCCESS */
+    .success-box {
+      text-align: center;
+      padding: 2rem;
+    }
+    .success-icon { font-size: 48px; margin-bottom: 1rem; }
+    .success-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+    }
+    .success-sub { font-size: 14px; color: var(--text-muted); margin-bottom: 1.5rem; }
+
+    footer {
+      text-align: center;
+      padding: 1.25rem;
+      font-size: 12px;
+      color: var(--text-muted);
+      border-top: 0.5px solid var(--border);
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 500px) {
+      .page { padding: 1.25rem; }
+      .pickup-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .btn-row { flex-direction: column-reverse; }
+      .btn-row button { width: 100%; }
+      .steps { font-size: 11px; }
+      .step-num { width: 22px; height: 22px; font-size: 11px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">&#129704; ShoePorter <span>Academy</span></a>
+  <a class="nav-back" href="index.html">&#8592; Kembali</a>
+</nav>
+
+<div class="page">
+
+  <div class="page-header">
+    <div class="page-label">Booking</div>
+    <div class="page-title">Pesan layanan</div>
+    <div class="page-sub">Pilih layanan dan isi data pengiriman. Tim kami akan segera menghubungi kamu.</div>
+  </div>
+
+  <!-- STEPS -->
+  <div class="steps">
+    <div class="step active" id="step1-label">
+      <div class="step-num" id="sn1">1</div>
+      <span>Layanan</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step" id="step2-label">
+      <div class="step-num" id="sn2">2</div>
+      <span>Data diri</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step" id="step3-label">
+      <div class="step-num" id="sn3">3</div>
+      <span>Konfirmasi</span>
+    </div>
+  </div>
+
+  <div class="alert" id="alert"></div>
+
+  <!-- STEP 1: PILIH LAYANAN & PICKUP -->
+  <div class="panel active" id="panel1">
+    <div class="card">
+      <div class="card-title">Pilih layanan</div>
+      <div class="layanan-grid">
+        <div class="layanan-item" onclick="pilihLayanan(this, 'Deep Cleaning')">
+          <div class="layanan-icon">&#129704;</div>
+          <div class="layanan-name">Deep Cleaning</div>
+          <div class="layanan-desc">Cuci tuntas hingga sol</div>
+        </div>
+        <div class="layanan-item" onclick="pilihLayanan(this, 'Repaint')">
+          <div class="layanan-icon">&#127912;</div>
+          <div class="layanan-name">Repaint</div>
+          <div class="layanan-desc">Cat ulang profesional</div>
+        </div>
+        <div class="layanan-item" onclick="pilihLayanan(this, 'Repair')">
+          <div class="layanan-icon">&#128296;</div>
+          <div class="layanan-name">Repair</div>
+          <div class="layanan-desc">Perbaikan sol & jahit</div>
+        </div>
+        <div class="layanan-item" onclick="pilihLayanan(this, 'Sole Protect')">
+          <div class="layanan-icon">&#128737;</div>
+          <div class="layanan-name">Sole Protect</div>
+          <div class="layanan-desc">Lapisan pelindung sol</div>
+        </div>
+        <div class="layanan-item" onclick="pilihLayanan(this, 'Bag Spa')">
+          <div class="layanan-icon">&#128092;</div>
+          <div class="layanan-name">Bag Spa</div>
+          <div class="layanan-desc">Perawatan tas premium</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Metode pengiriman</div>
+      <div class="pickup-grid">
+        <div class="pickup-item" onclick="pilihPickup(this, 'Antar ke Workshop')">
+          <div class="pickup-icon">&#127968;</div>
+          <div>
+            <div class="pickup-name">Antar ke Workshop</div>
+            <div class="pickup-desc">Antar langsung ke cabang terdekat</div>
+          </div>
+        </div>
+        <div class="pickup-item" onclick="pilihPickup(this, 'Pickup / Jemput')">
+          <div class="pickup-icon">&#128663;</div>
+          <div>
+            <div class="pickup-name">Pickup / Jemput</div>
+            <div class="pickup-desc">Tim kami jemput ke lokasi kamu</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-green" onclick="nextStep(1)">Lanjut &rarr;</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: DATA DIRI -->
+  <div class="panel" id="panel2">
+    <div class="card">
+      <div class="card-title">Data diri</div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nama lengkap</label>
+          <input type="text" id="nama" placeholder="Nama kamu">
+        </div>
+        <div class="form-group">
+          <label>Nomor WhatsApp</label>
+          <input type="tel" id="wa" placeholder="08xx-xxxx-xxxx">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Alamat lengkap</label>
+        <input type="text" id="alamat" placeholder="Jalan, nomor, kelurahan, kecamatan...">
+      </div>
+
+      <div class="form-group">
+        <label>Catatan tambahan <span class="optional-tag">(opsional)</span></label>
+        <textarea id="catatan" placeholder="Contoh: sepatu warna putih, ada noda di bagian samping kiri..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Share lokasi <span class="optional-tag">(opsional)</span></label>
+        <button class="loc-btn" id="locBtn" onclick="shareLocation()">
+          &#128205; Bagikan lokasi saya
+        </button>
+        <div class="loc-result" id="locResult"></div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-outline" onclick="prevStep(2)">&#8592; Kembali</button>
+      <button class="btn-green" onclick="nextStep(2)">Lanjut &rarr;</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: KONFIRMASI -->
+  <div class="panel" id="panel3">
+    <div class="card">
+      <div class="card-title">Ringkasan booking</div>
+      <div id="summary"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Kirim via WhatsApp</div>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:1rem">
+        Klik tombol di bawah untuk mengirim detail booking ke WhatsApp tim ShoePorter Academy. Tim kami akan segera mengonfirmasi pesananmu.
+      </p>
+      <button class="btn-wa" onclick="kirimWA()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.533 5.859L.057 23.486a.5.5 0 0 0 .609.61l5.702-1.48A11.955 11.955 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.006-1.371l-.36-.214-3.733.969.994-3.641-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
+        Konfirmasi via WhatsApp
+      </button>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-outline" onclick="prevStep(3)">&#8592; Kembali</button>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="panel" id="panelSuccess">
+    <div class="card">
+      <div class="success-box">
+        <div class="success-icon">&#127881;</div>
+        <div class="success-title">Booking terkirim!</div>
+        <div class="success-sub">Tim ShoePorter Academy akan segera menghubungi kamu melalui WhatsApp untuk konfirmasi lebih lanjut.</div>
+        <button class="btn-green" onclick="window.location.href='index.html'">Kembali ke Beranda</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>&copy; 2026 ShoePorter Academy &middot; Berdiri sejak 2017</footer>
+
+<script>
+  let selectedLayanan = '';
+  let selectedPickup = '';
+  let koordinat = '';
+  let currentStep = 1;
+
+  function pilihLayanan(el, nama) {
+    document.querySelectorAll('.layanan-item').forEach(e => e.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedLayanan = nama;
+  }
+
+  function pilihPickup(el, nama) {
+    document.querySelectorAll('.pickup-item').forEach(e => e.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedPickup = nama;
+  }
+
+  function showAlert(msg) {
+    const el = document.getElementById('alert');
+    el.textContent = msg;
+    el.className = 'alert error show';
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function hideAlert() {
+    document.getElementById('alert').className = 'alert';
+  }
+
+  function nextStep(from) {
+    hideAlert();
+    if (from === 1) {
+      if (!selectedLayanan) { showAlert('Mohon pilih layanan terlebih dahulu.'); return; }
+      if (!selectedPickup) { showAlert('Mohon pilih metode pengiriman.'); return; }
+    }
+    if (from === 2) {
+      const nama = document.getElementById('nama').value.trim();
+      const wa = document.getElementById('wa').value.trim();
+      const alamat = document.getElementById('alamat').value.trim();
+      if (!nama || !wa || !alamat) { showAlert('Mohon lengkapi nama, nomor WhatsApp, dan alamat.'); return; }
+      buildSummary();
+    }
+    document.getElementById('panel' + from).classList.remove('active');
+    currentStep = from + 1;
+    document.getElementById('panel' + currentStep).classList.add('active');
+    updateSteps();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function prevStep(from) {
+    hideAlert();
+    document.getElementById('panel' + from).classList.remove('active');
+    currentStep = from - 1;
+    document.getElementById('panel' + currentStep).classList.add('active');
+    updateSteps();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateSteps() {
+    for (let i = 1; i <= 3; i++) {
+      const label = document.getElementById('step' + i + '-label');
+      const num = document.getElementById('sn' + i);
+      label.className = 'step';
+      if (i < currentStep) { label.classList.add('done'); num.textContent = '✓'; }
+      else if (i === currentStep) { label.classList.add('active'); num.textContent = i; }
+      else { num.textContent = i; }
+    }
+  }
+
+  function buildSummary() {
+    const nama = document.getElementById('nama').value.trim();
+    const wa = document.getElementById('wa').value.trim();
+    const alamat = document.getElementById('alamat').value.trim();
+    const catatan = document.getElementById('catatan').value.trim();
+
+    let rows = [
+      { label: 'Layanan', val: selectedLayanan },
+      { label: 'Metode', val: selectedPickup },
+      { label: 'Nama', val: nama },
+      { label: 'WhatsApp', val: wa },
+      { label: 'Alamat', val: alamat },
+    ];
+    if (catatan) rows.push({ label: 'Catatan', val: catatan });
+    if (koordinat) rows.push({ label: 'Lokasi', val: koordinat });
+
+    document.getElementById('summary').innerHTML = rows.map(r =>
+      `<div class="summary-row"><span class="summary-label">${r.label}</span><span class="summary-val">${r.val}</span></div>`
+    ).join('');
+  }
+
+  function shareLocation() {
+    if (!navigator.geolocation) {
+      alert('Browser kamu tidak mendukung fitur lokasi.');
+      return;
+    }
+    const btn = document.getElementById('locBtn');
+    btn.textContent = '⏳ Mendapatkan lokasi...';
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const lat = pos.coords.latitude.toFixed(6);
+        const lng = pos.coords.longitude.toFixed(6);
+        koordinat = `https://maps.google.com/?q=${lat},${lng}`;
+        btn.innerHTML = '✅ Lokasi berhasil dibagikan';
+        btn.classList.add('got');
+        const res = document.getElementById('locResult');
+        res.style.display = 'block';
+        res.textContent = `Koordinat: ${lat}, ${lng}`;
+      },
+      () => {
+        btn.innerHTML = '&#128205; Bagikan lokasi saya';
+        alert('Gagal mendapatkan lokasi. Pastikan izin lokasi diaktifkan.');
+      }
+    );
+  }
+
+  function kirimWA() {
+    const nama = document.getElementById('nama').value.trim();
+    const wa = document.getElementById('wa').value.trim();
+    const alamat = document.getElementById('alamat').value.trim();
+    const catatan = document.getElementById('catatan').value.trim();
+    const nomorWA = '6287880057656';
+
+    let teks =
+      'Halo ShoePorter Academy! 👟\n\n' +
+      'Saya ingin booking layanan:\n\n' +
+      '• Layanan: ' + selectedLayanan + '\n' +
+      '• Metode: ' + selectedPickup + '\n' +
+      '• Nama: ' + nama + '\n' +
+      '• No. WhatsApp: ' + wa + '\n' +
+      '• Alamat: ' + alamat + '\n';
+
+    if (catatan) teks += '• Catatan: ' + catatan + '\n';
+    if (koordinat) teks += '• Lokasi: ' + koordinat + '\n';
+    teks += '\nMohon konfirmasinya, terima kasih! 🙏';
+
+    window.open('https://wa.me/' + nomorWA + '?text=' + encodeURIComponent(teks), '_blank');
+
+    // Tampilkan success
+    document.getElementById('panel3').classList.remove('active');
+    document.getElementById('panelSuccess').classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>
